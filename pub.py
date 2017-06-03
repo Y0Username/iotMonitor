@@ -33,10 +33,9 @@ def pubsub(payload):
 	myAWSIoTMQTTClient.connect()
 	time.sleep(2)
 
-	# Publish 
+	# Publish
 	myAWSIoTMQTTClient.publish("sdk/test/Python", json.dumps(payload), 1)
 	time.sleep(1)
-	
-	# Close connection 
-	myAWSIoTMQTTClient.connect()
 
+	# Close connection
+	myAWSIoTMQTTClient.disconnect()

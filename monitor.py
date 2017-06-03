@@ -218,7 +218,7 @@ def main():
             logger.debug("Stopping scan...")
             stop_scan()
             payload = process_scan(args.time)
-            logger.debug("Writing to DB...")
+            logger.debug("Publishing to DB...")
             pub.pubsub(payload)
             print("Sleep for " + str(float(args.sleep)) + " seconds" )
             time.sleep(float(args.sleep))  # Wait before getting next window
