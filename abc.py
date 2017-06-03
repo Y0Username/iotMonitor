@@ -1,0 +1,2 @@
+import pub
+pub.pubsub()
