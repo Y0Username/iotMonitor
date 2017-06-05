@@ -8,7 +8,8 @@ def get_weather_data():
 	weather = {}
 	obs = owm.weather_at_coords(*latlong)
 	w = obs.get_weather()
-	weather['temperature'] = w.get_temperature(unit='celsius')
+	weather['temperature'] = w.get_temperature(unit='celsius')['temp']
 	weather['humidity'] = w.get_humidity()
-	weather['w_description'] = "Partly Cloudy"
+	weather['windspeed'] = w.get_wind()['speed']
+	# weather['w_description'] = "Partly Cloudy"
 	return weather
