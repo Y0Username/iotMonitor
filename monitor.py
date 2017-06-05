@@ -97,7 +97,7 @@ def process_scan(time_window):
     now = datetime.datetime.now()
     # old_payload = {"_id": int(time.time()), "time": now.strftime("%c"), "fingerprints": int(len(fingerprints2)), "signals": fingerprints2}
     # my_payload = {"_id": now.strftime("%c"), "day": now.strftime("%A"), "hour": now.hour, "minute": now.minute, "customers": int(len(fingerprints2))}
-    payload = {'id': now.strftime("%c"), 'time': timestampnow.get_time(), 'customers': int(len(fingerprints2)), 'weather': weather.get_weather_data(), 'traffic': traffic.get_traffic_data(), 'class': True}
+    payload = {'id': int(time.time()), 'time': timestampnow.get_time(), 'customers': int(len(fingerprints2)), 'weather': weather.get_weather_data(), 'traffic': traffic.get_traffic_data(), 'class': True}
     print("Total devices: " + str(len(fingerprints2)))
     return payload
 
