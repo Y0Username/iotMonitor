@@ -408,7 +408,7 @@ jQuery(function ($) { "use strict";
 
 
 		google.maps.event.addListener(marker, 'click', function () {
-			var contentString = '<div style="color: #000000;">Cafe Espresso<br>Number of people: 3<br>Free<br>Distance: 0.3 miles</div>';
+			var contentString = '<div style="color: #000000;">Cafe Espresso<br>Number of people: 3<br>Free<br>Distance: 0.1 mile</div>';
       var infowindow = new google.maps.InfoWindow({
         content: contentString
       });
@@ -426,7 +426,7 @@ jQuery(function ($) { "use strict";
 
 
     google.maps.event.addListener(marker1, 'click', function () {
-			var contentString = '<div style="color: #000000;">Java City<br>Number of people: 21<br>Crowded<br>Distance: 0.1 miles</div>';
+			var contentString = '<div style="color: #000000;">Java City<br>Number of people: 21<br>Crowded<br>Distance: 421 ft</div>';
       var infowindow = new google.maps.InfoWindow({
         content: contentString
       });
