@@ -176,8 +176,8 @@ def main():
     parser.add_argument("-i", "--interface", default=default_wlan, help="Interface to listen on - default %s" % default_wlan)
     parser.add_argument("-t", "--time", default=60, help="scanning time in seconds (default 60)")
     parser.add_argument("--single-wifi", default=default_single_wifi, action="store_true", help="Engage single-wifi card mode?")
-    # parser.add_argument("-d", "--database", default="https://lf.internalpositioning.com", help="send payload to this database")
-    parser.add_argument("-d", "--database", default="127.0.0.1:27017", help="send payload to this database")
+    # parser.add_argument("-d", "--database", default="127.0.0.1:27017", help="send payload to this database")
+    parser.add_argument("-d", "--database", action="store_true", help="send payload to this database")
     parser.add_argument("-n", "--nodebug", action="store_true")
     parser.add_argument("-s", "--sleep", default=10, help="set sleep time in seconds (default 600)" )
     args = parser.parse_args()
@@ -198,16 +198,17 @@ def main():
     logger.addHandler(ch)
 
     # Startup scanning
-    # logger.debug("Starting database " + args.database)
 
-    # logger.debug("Starting database " + args.database)
-    # os.system('nohup mongod --dbpath /var/lib/mongodb &')
-    # print("Using database " + args.database)
-    # logger.debug("Using database " + args.database)
+    # Start Mongo DB on the raspberry pi
+    if args.database:
+        logger.debug("Starting database " + args.database)
+        os.system('nohup mongod --dbpath /var/lib/mongodb &')
+        print("Using database " + args.database)
+        logger.debug("Using database " + args.database)
+
+    # To set the Raspberry Pi in monitor mode, we need to start the nexutil tool with "nexutil -m2"
     logger.debug("Setting interface in monitor mode")
     os.system('nexutil -m2')
-    # print("Using group " + args.group)
-    # logger.debug("Using group " + args.group)
 
     while True:
         try:
@@ -218,8 +219,15 @@ def main():
             logger.debug("Stopping scan...")
             stop_scan()
             payload = process_scan(args.time)
-            logger.debug("Publishing to DB...")
-            pub.pubsub(payload)
+
+            # Write to Database
+            if args.database:
+                logger.debug("Writing to Mongo DB...")
+                write_to_db_full(args.database, payload)
+            else:
+                logger.debug("Publishing to Dynamo DB...")
+                pub.pubsub(payload)
+
             print("Sleep for " + str(float(args.sleep)) + " seconds" )
             time.sleep(float(args.sleep))  # Wait before getting next window
         except Exception:
@@ -228,13 +236,13 @@ def main():
 
 
 def exit_handler():
-    # print("Exiting...stopping scan..")
     logger.info("Exiting...stopping scan..")
     os.system("pkill -9 tshark")
-    # print("Exiting...killing db..")
-    # logger.info("Exiting...killing db..")
-    # os.system("pkill mongod")
-    # print("Exiting...stoping monitor mode..")
+
+    Kill the Mongo DB on exit
+    logger.info("Exiting...killing db..")
+    os.system("pkill mongod")
+
     logger.info("Exiting...stopping monitor mode..")
     os.system("nexutil -m0")
 

@@ -1,2 +1,0 @@
-import pub
-pub.pubsub()
