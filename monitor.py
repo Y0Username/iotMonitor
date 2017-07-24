@@ -171,7 +171,6 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("-g", "--group", default="", help="group name")
     parser.add_argument("-i", "--interface", default=default_wlan, help="Interface to listen on - default %s" % default_wlan)
     parser.add_argument("-t", "--time", default=60, help="scanning time in seconds (default 60)")
     # parser.add_argument("--single-wifi", default=default_single_wifi, action="store_true", help="Engage single-wifi card mode?")
