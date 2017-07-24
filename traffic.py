@@ -20,7 +20,7 @@ def get_severity():
 	response = requests.get(url, params = params)
 	data = response.json()
 	resources = data['resourceSets'][0]['resources']
-	print '----------------------------------------------------'
+	print ('----------------------------------------------------')
 	severitysum = 0
 	for resource in resources:
 	    severitysum += resource['severity']
@@ -36,13 +36,13 @@ if __name__ == "__main__":
 	response = requests.get(url, params = params)
 	data = response.json()
 	resources = data['resourceSets'][0]['resources']
-	print '----------------------------------------------------'
+	print ('----------------------------------------------------')
 	severitysum=0;
 	for resourceItem in resources:
     	 description = resourceItem['description']
     	 severity = resourceItem['severity']
     	 severitysum += severity
-    	 print 'Description: ', description
-    	 print 'Severity: ', severity
-    	 print '----------------------------------------------------'
-	print "Total traffic severity  =", severitysum
+    	 print ('Description: ', description)
+    	 print ('Severity: ', severity)
+    	 print ('----------------------------------------------------')
+	print ("Total traffic severity  =", severitysum)

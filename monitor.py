@@ -135,25 +135,24 @@ def stop_scan():
 def write_to_db(address, payload):
     #mongodb
     try:
-	connection = pymongo.MongoClient(host=[address])
-	db = connection.Java
-	collection = db.customers
-	collection.insert(payload)
-        logger.info("Written to DB")
-    except pymongo.errors, e:
-        print "DB Operation Failed with: %s" % e
+    	connection = pymongo.MongoClient(host=[address])
+    	db = connection.Java
+    	collection = db.customers
+    	collection.insert(payload)
+        # logger.info("Written to DB")
+    except (pymongo.errors, e):
+        print ("DB Operation Failed with: %s" % e)
 
 def write_to_db_full(address, payload):
     #mongodb
     try:
-	connection = pymongo.MongoClient(host=[address])
-	db = connection.JavaFull
-	collection = db.AllCustomers
-	collection.insert(payload)
-        logger.info("Written to DB")
-    except pymongo.errors, e:
-        print "DB Operation Failed with: %s" % e
-
+    	connection = pymongo.MongoClient(host=[address])
+    	db = connection.JavaFull
+    	collection = db.AllCustomers
+    	collection.insert(payload)
+        # logger.info("Written to DB")
+    except (pymongo.errors, e):
+        print ("DB Operation Failed with: %s" % e)
 
 def main():
     # Check if SUDO
@@ -165,17 +164,17 @@ def main():
     # Check which interface
     # Test if wlan0 / wlan1
     default_wlan = "wlan0"
-    default_single_wifi = False
-    if num_wifi_cards() == 1:
-        default_single_wifi = True
-        default_wlan = "wlan0"
+    # default_single_wifi = False
+    # if num_wifi_cards() == 1:
+    #     default_single_wifi = True
+    #     default_wlan = "wlan0"
 
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-g", "--group", default="", help="group name")
     parser.add_argument("-i", "--interface", default=default_wlan, help="Interface to listen on - default %s" % default_wlan)
     parser.add_argument("-t", "--time", default=60, help="scanning time in seconds (default 60)")
-    parser.add_argument("--single-wifi", default=default_single_wifi, action="store_true", help="Engage single-wifi card mode?")
+    # parser.add_argument("--single-wifi", default=default_single_wifi, action="store_true", help="Engage single-wifi card mode?")
     # parser.add_argument("-d", "--database", default="127.0.0.1:27017", help="send payload to this database")
     parser.add_argument("-d", "--database", action="store_true", help="send payload to this database")
     parser.add_argument("-n", "--nodebug", action="store_true")
@@ -239,7 +238,6 @@ def exit_handler():
     logger.info("Exiting...stopping scan..")
     os.system("pkill -9 tshark")
 
-    Kill the Mongo DB on exit
     logger.info("Exiting...killing db..")
     os.system("pkill mongod")
 
