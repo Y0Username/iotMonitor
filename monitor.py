@@ -172,12 +172,12 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--interface", default=default_wlan, help="Interface to listen on - default %s" % default_wlan)
-    parser.add_argument("-t", "--time", default=60, help="scanning time in seconds (default 60)")
+    parser.add_argument("-t", "--time", default=60, help="Scanning time in seconds (default 60)")
     # parser.add_argument("--single-wifi", default=default_single_wifi, action="store_true", help="Engage single-wifi card mode?")
     # parser.add_argument("-d", "--database", default="127.0.0.1:27017", help="send payload to this database")
-    parser.add_argument("-d", "--database", action="store_true", help="send payload to this database")
+    parser.add_argument("-d", "--database", action="store_true", help="Send payload MongoDB")
     parser.add_argument("-n", "--nodebug", action="store_true")
-    parser.add_argument("-s", "--sleep", default=10, help="set sleep time in seconds (default 600)" )
+    parser.add_argument("-s", "--sleep", default=10, help="Set sleep time in seconds (default 600)" )
     args = parser.parse_args()
 
     # Check arguments for logging
