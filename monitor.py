@@ -151,8 +151,8 @@ def write_to_db_full(address, payload):
     	collection = db.AllCustomers
     	collection.insert(payload)
         # logger.info("Written to DB")
-    except (pymongo.errors, e):
-        print ("DB Operation Failed with: %s" % e)
+    except pymongo.errors:
+        print ("DB Operation Failed!")
 
 def main():
     # Check if SUDO
@@ -198,11 +198,10 @@ def main():
     # Startup scanning
 
     # Start Mongo DB on the raspberry pi
+    mongo_database = '127.0.0.1:27017'
     if args.database:
-        logger.debug("Starting database " + args.database)
+        logger.debug("Starting database ")
         os.system('nohup mongod --dbpath /var/lib/mongodb &')
-        print("Using database " + args.database)
-        logger.debug("Using database " + args.database)
 
     # To set the Raspberry Pi in monitor mode, we need to start the nexutil tool with "nexutil -m2"
     logger.debug("Setting interface in monitor mode")
@@ -221,7 +220,7 @@ def main():
             # Write to Database
             if args.database:
                 logger.debug("Writing to Mongo DB...")
-                write_to_db_full(args.database, payload)
+                write_to_db_full(mongo_database, payload)
             else:
                 logger.debug("Publishing to Dynamo DB...")
                 pub.pubsub(payload)
